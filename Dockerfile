@@ -1,6 +1,6 @@
 FROM eclipse-temurin:17-jre-alpine
 
-COPY ./target/profil-research-api/target/profil-research-api-0.0.1-SNAPSHOT.jar .
+COPY ./target/profil-research-api-0.0.1-SNAPSHOT.jar .
 
 # Expose le port 
 EXPOSE 8080
