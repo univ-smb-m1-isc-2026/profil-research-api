@@ -1,14 +1,8 @@
-    # Utiliser une image java 17 légère 
-    FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 
-    # Répertoire de travail dans le conteneur
-    WORKDIR /app
+COPY ./target/profil-research-api/target/profil-research-api-0.0.1-SNAPSHOT.jar .
 
-    # Copier le fichier JAR de l'application (généré par Maven/Gradle)
-    COPY target/*.jar /app.jar
+# Expose le port 
+EXPOSE 8080
 
-    # Expose port pour l'app Spring Boot
-    EXPOSE 8080
-
-    # Commande d'exécution au démarrage du conteneur
-    ENTRYPOINT ["java", "-jar", "/app.jar"]   
+CMD ["sh","-c","java -XX:InitialRAMPercentage=50 -XX:MaxRAMPercentage=70  -XshowSettings $JAVA_OPTS -jar chuck-facts-1.0-SNAPSHOT.jar"]
