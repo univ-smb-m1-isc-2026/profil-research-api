@@ -1,5 +1,5 @@
 # profil-research-api
-From *demo* folder in a terminal to run the backend enter: 
+From *profil-research-api* folder in a terminal to run the backend enter: 
 ```
 ./mvnw spring-boot:run
 ```
