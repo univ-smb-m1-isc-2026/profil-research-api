@@ -1,7 +1,7 @@
 # profil-research-api
 From *profil-research-api* folder in a terminal to run the backend enter: 
 ```
-./mvnw spring-boot:run
+./mvnw spring-boot:run 
 ```
 
 
