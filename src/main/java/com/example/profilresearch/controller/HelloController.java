@@ -1,4 +1,4 @@
-package com.example.profilresearch;
+package com.example.profilresearch.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
