@@ -20,4 +20,9 @@ public class JobOfferController {
     public List<JobOffer> getAllJobOffer() {
         return jobOfferService.getAllJobOffer();
     }
+
+    @GetMapping("candidate")
+    public List<JobOffer> getPublicJobOffer() {
+        return jobOfferService.getPublicJobOffer();
+    }
 }

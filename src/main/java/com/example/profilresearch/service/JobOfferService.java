@@ -16,4 +16,8 @@ public class JobOfferService {
     public List<JobOffer> getAllJobOffer() {
         return jobOfferRepository.findAll();
     }
+
+    public List<JobOffer> getPublicJobOffer() {
+        return jobOfferRepository.findByIsPublicTrue();
+    }
 }
