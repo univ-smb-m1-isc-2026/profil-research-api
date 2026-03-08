@@ -1,0 +1,24 @@
+package com.example.profilresearch.controller;
+
+import com.example.profilresearch.entity.Application;
+import com.example.profilresearch.service.ApplicationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/application") // start of all requests for this file
+@RequiredArgsConstructor
+public class ApplicationController {
+
+    private final ApplicationService applicationService;
+
+    @GetMapping("/getApplicationByJobOffer/{jobOfferId}")
+    public List<Application> getApplicationByJobOffer(@PathVariable String jobOfferId) {
+        return applicationService.getApplicationByJobOffer(jobOfferId);
+    }
+}
