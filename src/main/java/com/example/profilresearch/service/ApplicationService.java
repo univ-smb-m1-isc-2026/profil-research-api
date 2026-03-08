@@ -21,5 +21,6 @@ public class ApplicationService {
     public void deleteById(String id) {
         Long applicationId = Long.parseLong(id);
         applicationRepository.deleteById(applicationId);
+        // we delete also all the answers to the questions of the job offer with ON DELETE CASCADE in the creation of the tab QuestionApplication
     }
 }

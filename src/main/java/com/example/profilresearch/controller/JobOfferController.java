@@ -3,9 +3,7 @@ package com.example.profilresearch.controller;
 import com.example.profilresearch.entity.JobOffer;
 import com.example.profilresearch.service.JobOfferService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +22,10 @@ public class JobOfferController {
     @GetMapping("candidate")
     public List<JobOffer> getPublicJobOffer() {
         return jobOfferService.getPublicJobOffer();
+    }
+
+    @DeleteMapping("/delete/{jobOfferId}")
+    public void deleteById(@PathVariable String jobOfferId) {
+        jobOfferService.deleteById(jobOfferId);
     }
 }

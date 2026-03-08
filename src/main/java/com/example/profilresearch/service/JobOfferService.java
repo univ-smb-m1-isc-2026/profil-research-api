@@ -20,4 +20,11 @@ public class JobOfferService {
     public List<JobOffer> getPublicJobOffer() {
         return jobOfferRepository.findByIsPublicTrue();
     }
+
+    public void deleteById(String jobOfferId) {
+        Long JOId = Long.parseLong(jobOfferId);
+        jobOfferRepository.deleteById(JOId);
+        // we delete also all the applications and the questions with ON DELETE CASCADE
+        // in the creation of tab Application and QuestionJobOffer
+    }
 }
