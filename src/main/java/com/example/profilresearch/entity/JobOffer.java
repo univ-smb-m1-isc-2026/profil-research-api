@@ -13,4 +13,5 @@ public class JobOffer {
 
     private String title;
     private String description;
+    private boolean isPublic;
 }
