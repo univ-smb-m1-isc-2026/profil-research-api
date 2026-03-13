@@ -16,6 +16,6 @@ public class Application {
     private String firstname;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id_jobOffer", nullable = false)
     private JobOffer jobOffer; // the joboffer linked to the application
 }

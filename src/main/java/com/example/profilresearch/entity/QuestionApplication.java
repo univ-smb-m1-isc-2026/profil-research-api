@@ -14,10 +14,10 @@ public class QuestionApplication {
     private String response; // the response of the user
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id_question", nullable = false)
     private Question id_question; // the id of the linked question
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id_application", nullable = false)
     private Application id_application; // the id of the linked application
 }

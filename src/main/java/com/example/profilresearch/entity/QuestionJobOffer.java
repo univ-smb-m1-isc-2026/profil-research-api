@@ -14,10 +14,10 @@ public class QuestionJobOffer {
     private String question_number; // the number of this question, the appearance order for display
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id_question", nullable = false)
     private Question id_question; // the id of the linked question
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id_jobOffer", nullable = false)
     private JobOffer id_job_offer; // the id of the linked JobOffer
 }

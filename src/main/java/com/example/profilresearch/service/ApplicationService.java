@@ -15,7 +15,7 @@ public class ApplicationService {
 
     public List<Application> getApplicationByJobOffer(String id) {
         Long jobOfferId = Long.parseLong(id);
-        return applicationRepository.findAllByJobOffer_IdJobOffer(jobOfferId);
+        return applicationRepository.findAllByJobOffer_Id(jobOfferId);
     }
 
     public void deleteById(String id) {

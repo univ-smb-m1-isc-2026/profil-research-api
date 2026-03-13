@@ -14,6 +14,6 @@ public class ChoiceFormat {
     private String choice; // the choice the user can make
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id_question", nullable = false)
     private Question question; // the id of the linked question
 }
