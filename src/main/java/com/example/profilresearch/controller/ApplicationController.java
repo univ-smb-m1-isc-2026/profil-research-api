@@ -1,7 +1,6 @@
 package com.example.profilresearch.controller;
 
 import com.example.profilresearch.dto.ApplicationRequest;
-import com.example.profilresearch.dto.JobOfferRequest;
 import com.example.profilresearch.entity.Application;
 import com.example.profilresearch.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
