@@ -1,5 +1,7 @@
 package com.example.profilresearch.controller;
 
+import com.example.profilresearch.dto.ApplicationRequest;
+import com.example.profilresearch.dto.JobOfferRequest;
 import com.example.profilresearch.entity.Application;
 import com.example.profilresearch.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +24,10 @@ public class ApplicationController {
     @DeleteMapping("/delete/{applicationId}")
     public void deleteById(@PathVariable String applicationId) {
         applicationService.deleteById(applicationId);
+    }
+
+    @PostMapping("/addApplication")
+    public String addApplication(@RequestBody ApplicationRequest request) {
+        return applicationService.createApplication(request);
     }
 }

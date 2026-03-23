@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,14 +31,16 @@ public class JobOfferService {
     }
 
     public String createJobOffer(JobOfferRequest request) {
-
         JobOffer jobOffer = new JobOffer();
         jobOffer.setTitle(request.getTitle());
         jobOffer.setDescription(request.getDescription());
         jobOffer.setIsPublic(request.getIsPublic());
-
         jobOfferRepository.save(jobOffer);
 
         return "JobOffer ajouté";
+    }
+
+    public Optional<JobOffer> getJobOfferById(Long id){
+        return jobOfferRepository.findById(id);
     }
 }
