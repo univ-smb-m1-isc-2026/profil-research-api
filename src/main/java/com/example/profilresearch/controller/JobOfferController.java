@@ -1,5 +1,6 @@
 package com.example.profilresearch.controller;
 
+import com.example.profilresearch.dto.JobOfferRequest;
 import com.example.profilresearch.entity.JobOffer;
 import com.example.profilresearch.service.JobOfferService;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +15,12 @@ public class JobOfferController {
 
     private final JobOfferService jobOfferService;
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<JobOffer> getAllJobOffer() {
         return jobOfferService.getAllJobOffer();
     }
 
-    @GetMapping("candidate")
+    @GetMapping("/getAllPublic")
     public List<JobOffer> getPublicJobOffer() {
         return jobOfferService.getPublicJobOffer();
     }
@@ -27,5 +28,10 @@ public class JobOfferController {
     @DeleteMapping("/delete/{jobOfferId}")
     public void deleteById(@PathVariable String jobOfferId) {
         jobOfferService.deleteById(jobOfferId);
+    }
+
+    @PostMapping("/addJobOffer")
+    public String addJobOffer(@RequestBody JobOfferRequest request) {
+        return jobOfferService.createJobOffer(request);
     }
 }

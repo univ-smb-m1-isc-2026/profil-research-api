@@ -1,5 +1,6 @@
 package com.example.profilresearch.service;
 
+import com.example.profilresearch.dto.JobOfferRequest;
 import com.example.profilresearch.entity.JobOffer;
 import com.example.profilresearch.repository.JobOfferRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,17 @@ public class JobOfferService {
         jobOfferRepository.deleteById(JOId);
         // we delete also all the applications and the questions with ON DELETE CASCADE
         // in the creation of tab Application and QuestionJobOffer
+    }
+
+    public String createJobOffer(JobOfferRequest request) {
+
+        JobOffer jobOffer = new JobOffer();
+        jobOffer.setTitle(request.getTitle());
+        jobOffer.setDescription(request.getDescription());
+        jobOffer.setIsPublic(request.getIsPublic());
+
+        jobOfferRepository.save(jobOffer);
+
+        return "JobOffer ajouté";
     }
 }

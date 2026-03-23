@@ -14,4 +14,8 @@ public class JobOffer {
     private String title;
     private String description;
     private boolean isPublic;
+
+    public void setIsPublic(boolean ip){
+        this.isPublic = ip;
+    }
 }
