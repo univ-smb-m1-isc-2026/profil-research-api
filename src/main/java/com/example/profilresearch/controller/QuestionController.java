@@ -1,11 +1,11 @@
 package com.example.profilresearch.controller;
 
+import com.example.profilresearch.dto.ApplicationRequest;
+import com.example.profilresearch.dto.QuestionRequest;
 import com.example.profilresearch.entity.Question;
 import com.example.profilresearch.service.QuestionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,8 +16,13 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<Question> getAllQuestion() {
         return questionService.getAllQuestion();
+    }
+
+    @PostMapping("/addQuestion")
+    public String addQuestion(@RequestBody QuestionRequest request) {
+        return questionService.createQuestion(request);
     }
 }
