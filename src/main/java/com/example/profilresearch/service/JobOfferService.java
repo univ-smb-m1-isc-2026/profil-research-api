@@ -6,6 +6,8 @@ import com.example.profilresearch.repository.JobOfferRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +37,13 @@ public class JobOfferService {
         jobOffer.setTitle(request.getTitle());
         jobOffer.setDescription(request.getDescription());
         jobOffer.setIsPublic(request.getIsPublic());
+        jobOffer.setContractType(request.getContractType());
+        jobOffer.setLocation(request.getLocation());
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+        String formattedString = localDate.format(formatter);
+        System.out.println(formattedString);
+        jobOffer.setDate(formattedString);
         jobOfferRepository.save(jobOffer);
 
         return "JobOffer ajouté";
