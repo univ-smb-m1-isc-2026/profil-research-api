@@ -16,12 +16,16 @@ import java.util.List;
 public class SecurityConfig {
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000", "https://psjob.oups.net"));  // Frontend local and deployed
-        config.setAllowedMethods(List.of("*"));
+        // Allow the frontend origins
+        config.setAllowedOriginPatterns(List.of("http://localhost:3000", "https://psjob.oups.net"));
+        // Explicit methods to ensure preflight is handled.
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
+        // Expose common headers if frontends need them
+        config.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
