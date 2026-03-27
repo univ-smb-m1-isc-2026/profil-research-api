@@ -2,6 +2,7 @@ package com.example.profilresearch.service;
 
 import com.example.profilresearch.dto.JobOfferRequest;
 import com.example.profilresearch.entity.JobOffer;
+import com.example.profilresearch.entity.Question;
 import com.example.profilresearch.repository.JobOfferRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -19,6 +20,8 @@ public class JobOfferService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final JobOfferRepository jobOfferRepository;
+    private final QuestionService questionService;
+    private final QuestionJobOfferService questionJobOfferService;
 
     public List<JobOffer> getAllJobOffer() {
         return jobOfferRepository.findAll();
@@ -47,8 +50,13 @@ public class JobOfferService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
         String formattedString = localDate.format(formatter);
         jobOffer.setDate(formattedString);
-        jobOfferRepository.save(jobOffer);
-        logger.info("JobOffer created: {}", jobOffer.getTitle());
+        JobOffer job = jobOfferRepository.save(jobOffer);
+
+        for(int i = 0; i < request.getId_question().size(); i++){
+            Question question = questionService.getQuestionById(request.getId_question().get(i))
+                    .orElseThrow(() -> new RuntimeException("Question not found"));
+            questionJobOfferService.createQuestionJobOffer(question, job, i);
+        }
 
         return "JobOffer ajouté";
     }
