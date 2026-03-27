@@ -4,6 +4,8 @@ import com.example.profilresearch.dto.JobOfferRequest;
 import com.example.profilresearch.entity.JobOffer;
 import com.example.profilresearch.repository.JobOfferRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class JobOfferService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final JobOfferRepository jobOfferRepository;
 
     public List<JobOffer> getAllJobOffer() {
@@ -27,6 +30,7 @@ public class JobOfferService {
 
     public void deleteById(String jobOfferId) {
         Long JOId = Long.parseLong(jobOfferId);
+        logger.info("Deleting JobOffer with ID: {}", JOId);
         jobOfferRepository.deleteById(JOId);
         // we delete also all the applications and the questions with ON DELETE CASCADE
         // in the creation of tab Application and QuestionJobOffer
@@ -42,9 +46,9 @@ public class JobOfferService {
         LocalDate localDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
         String formattedString = localDate.format(formatter);
-        System.out.println(formattedString);
         jobOffer.setDate(formattedString);
         jobOfferRepository.save(jobOffer);
+        logger.info("JobOffer created: {}", jobOffer.getTitle());
 
         return "JobOffer ajouté";
     }
@@ -58,6 +62,7 @@ public class JobOfferService {
                 .orElseThrow(() -> new RuntimeException("Job Offer not found"));
         jo.setIsPublic(!jo.isPublic());
         jobOfferRepository.save(jo);
+        logger.info("JobOffer {} set to public: {}", idJobOffer, jo.isPublic());
         return "JobOffer modifié";
     }
 }

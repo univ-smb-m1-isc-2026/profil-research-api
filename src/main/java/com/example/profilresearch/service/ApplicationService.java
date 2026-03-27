@@ -5,6 +5,8 @@ import com.example.profilresearch.entity.Application;
 import com.example.profilresearch.entity.JobOffer;
 import com.example.profilresearch.repository.ApplicationRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApplicationService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ApplicationRepository applicationRepository;
     private final JobOfferService jobOfferService;
 
@@ -23,6 +26,7 @@ public class ApplicationService {
 
     public void deleteById(String id) {
         Long applicationId = Long.parseLong(id);
+        logger.info("Deleting Application with ID: {}", applicationId);
         applicationRepository.deleteById(applicationId);
         // we delete also all the answers to the questions of the job offer with ON DELETE CASCADE in the creation of the tab QuestionApplication
     }
@@ -38,6 +42,7 @@ public class ApplicationService {
         application.setJobOffer(jo);
 
         applicationRepository.save(application);
+        logger.info("Application created for {} {} on JobOffer {}", application.getFirstname(), application.getLastname(), jo.getId());
 
         return "Application ajouté";
     }
