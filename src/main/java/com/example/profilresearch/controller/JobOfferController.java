@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/joboffer") // start of all requests for this file
-@RequiredArgsConstructor // j'ai fais confiance à lohan
+@RequiredArgsConstructor
 public class JobOfferController {
 
     private final JobOfferService jobOfferService;
@@ -33,5 +33,10 @@ public class JobOfferController {
     @PostMapping("/addJobOffer")
     public String addJobOffer(@RequestBody JobOfferRequest request) {
         return jobOfferService.createJobOffer(request);
+    }
+
+    @PutMapping("/editIsPublic/{idJobOffer}")
+    public String editParking(@PathVariable Long idJobOffer) {
+        return jobOfferService.updateIsPublic(idJobOffer);
     }
 }

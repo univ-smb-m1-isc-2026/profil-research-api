@@ -52,4 +52,12 @@ public class JobOfferService {
     public Optional<JobOffer> getJobOfferById(Long id){
         return jobOfferRepository.findById(id);
     }
+
+    public String updateIsPublic(Long idJobOffer){
+        JobOffer jo = this.getJobOfferById(idJobOffer)
+                .orElseThrow(() -> new RuntimeException("Job Offer not found"));
+        jo.setIsPublic(!jo.isPublic());
+        jobOfferRepository.save(jo);
+        return "JobOffer modifié";
+    }
 }
