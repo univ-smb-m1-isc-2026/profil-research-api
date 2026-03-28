@@ -1,6 +1,8 @@
 package com.example.profilresearch.service;
 
 import com.example.profilresearch.dto.JobOfferRequest;
+import com.example.profilresearch.dto.QuestionJobOfferResponse;
+import com.example.profilresearch.dto.QuestionRequest;
 import com.example.profilresearch.entity.JobOffer;
 import com.example.profilresearch.entity.Question;
 import com.example.profilresearch.entity.QuestionJobOffer;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,5 +79,20 @@ public class JobOfferService {
         jobOfferRepository.save(jo);
         logger.info("JobOffer {} set to public: {}", idJobOffer, jo.isPublic());
         return "JobOffer modifié";
+    }
+
+    public List<QuestionJobOfferResponse> getAllQuestionJobOffer(String jobOfferId) {
+        Long JOId = Long.parseLong(jobOfferId);
+        List<QuestionJobOffer> qjo = questionJobOfferService.getAllQuestionJobOfferByJobOffer(JOId);
+        List<QuestionJobOfferResponse> qjor = new ArrayList<QuestionJobOfferResponse>();
+        for (QuestionJobOffer questionJobOffer : qjo) {
+            QuestionJobOfferResponse qjori = new QuestionJobOfferResponse();
+            qjori.setId(questionJobOffer.getId());
+            qjori.setQuestion_number(questionJobOffer.getQuestion_number());
+            qjori.setId_question(questionJobOffer.getId_question());
+            qjori.setId_job_offer(questionJobOffer.getId_job_offer().getId());
+            qjor.add(qjori);
+        }
+        return qjor;
     }
 }
