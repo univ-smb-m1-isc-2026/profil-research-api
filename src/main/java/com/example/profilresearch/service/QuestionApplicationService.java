@@ -22,4 +22,8 @@ public class QuestionApplicationService {
         qa.setResponses(responses);
         questionApplicationRepository.save(qa);
     }
+
+    public List<QuestionApplication> getAllQuestionApplicationByApplication(Long applicationId){
+        return questionApplicationRepository.findQuestionApplicationById_application(applicationId);
+    }
 }

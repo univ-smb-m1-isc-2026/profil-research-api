@@ -2,11 +2,8 @@ package com.example.profilresearch.service;
 
 import com.example.profilresearch.dto.ApplicationRequest;
 import com.example.profilresearch.dto.ApplicationResponse;
-import com.example.profilresearch.dto.QuestionJobOfferResponse;
-import com.example.profilresearch.entity.Application;
-import com.example.profilresearch.entity.JobOffer;
-import com.example.profilresearch.entity.Question;
-import com.example.profilresearch.entity.QuestionJobOffer;
+import com.example.profilresearch.dto.QuestionApplicationResponse;
+import com.example.profilresearch.entity.*;
 import com.example.profilresearch.repository.ApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -41,6 +38,21 @@ public class ApplicationService {
             applisRes.add(app);
         }
         return applisRes;
+    }
+
+    public List<QuestionApplicationResponse> getAllQuestionApplication(String appliId){
+        Long applicationId = Long.parseLong(appliId);
+        List<QuestionApplication> qa = questionApplicationService.getAllQuestionApplicationByApplication(applicationId);
+        List<QuestionApplicationResponse> qar = new ArrayList<QuestionApplicationResponse>();
+        for (QuestionApplication questionApplication : qa) {
+            QuestionApplicationResponse qari = new QuestionApplicationResponse();
+            qari.setId(questionApplication.getId());
+            qari.setId_application(applicationId);
+            qari.setId_question(questionApplication.getId_question());
+            qari.setResponses(questionApplication.getResponses());
+            qar.add(qari);
+        }
+        return qar;
     }
 
     public void deleteById(String id) {

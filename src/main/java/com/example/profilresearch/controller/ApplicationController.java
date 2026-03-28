@@ -2,6 +2,7 @@ package com.example.profilresearch.controller;
 
 import com.example.profilresearch.dto.ApplicationRequest;
 import com.example.profilresearch.dto.ApplicationResponse;
+import com.example.profilresearch.dto.QuestionApplicationResponse;
 import com.example.profilresearch.entity.Application;
 import com.example.profilresearch.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +36,10 @@ public class ApplicationController {
     public String addApplication(@RequestBody ApplicationRequest request) {
         logger.info("Received new application from: {} {}", request.getFirstname(), request.getLastname());
         return applicationService.createApplication(request);
+    }
+
+    @GetMapping("/getAllResponses/{applicationId}")
+    public List<QuestionApplicationResponse> getAllQuestionApplication(@PathVariable String applicationId) {
+        return applicationService.getAllQuestionApplication(applicationId);
     }
 }
