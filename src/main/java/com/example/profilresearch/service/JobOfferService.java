@@ -3,6 +3,7 @@ package com.example.profilresearch.service;
 import com.example.profilresearch.dto.JobOfferRequest;
 import com.example.profilresearch.entity.JobOffer;
 import com.example.profilresearch.entity.Question;
+import com.example.profilresearch.entity.QuestionJobOffer;
 import com.example.profilresearch.repository.JobOfferRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -34,9 +35,12 @@ public class JobOfferService {
     public void deleteById(String jobOfferId) {
         Long JOId = Long.parseLong(jobOfferId);
         logger.info("Deleting JobOffer with ID: {}", JOId);
+        List<QuestionJobOffer> qjo = questionJobOfferService.getAllQuestionJobOfferByJobOffer(JOId);
+        // retrouver tous les QuestionJobOffer qui sont avec ce jobOffer et le delete
+        for (QuestionJobOffer questionJobOffer : qjo) {
+            questionJobOfferService.deleteById(questionJobOffer.getId());
+        }
         jobOfferRepository.deleteById(JOId);
-        // we delete also all the applications and the questions with ON DELETE CASCADE
-        // in the creation of tab Application and QuestionJobOffer
     }
 
     public String createJobOffer(JobOfferRequest request) {

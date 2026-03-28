@@ -15,9 +15,9 @@ public class QuestionJobOffer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_question", nullable = false)
-    private Question id_question; // the id of the linked question
+    private Question id_question; // the linked question
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_jobOffer", nullable = false)
-    private JobOffer id_job_offer; // the id of the linked JobOffer
+    private JobOffer id_job_offer; // the linked JobOffer
 }

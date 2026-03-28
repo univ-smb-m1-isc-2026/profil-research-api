@@ -7,6 +7,8 @@ import com.example.profilresearch.repository.QuestionJobOfferRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class QuestionJobOfferService {
@@ -18,5 +20,13 @@ public class QuestionJobOfferService {
         questionJobOffer.setId_job_offer(jo);
         questionJobOffer.setQuestion_number(ind);
         questionJobOfferRepository.save(questionJobOffer);
+    }
+
+    public List<QuestionJobOffer> getAllQuestionJobOfferByJobOffer(Long id_jobOffer){
+        return questionJobOfferRepository.findQuestionJobOfferById_job_offer(id_jobOffer);
+    }
+
+    public void deleteById(Long qjoId) {
+        questionJobOfferRepository.deleteById(qjoId);
     }
 }
