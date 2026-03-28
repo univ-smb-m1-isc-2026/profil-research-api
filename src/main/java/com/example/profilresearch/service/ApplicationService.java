@@ -1,15 +1,19 @@
 package com.example.profilresearch.service;
 
 import com.example.profilresearch.dto.ApplicationRequest;
+import com.example.profilresearch.dto.ApplicationResponse;
+import com.example.profilresearch.dto.QuestionJobOfferResponse;
 import com.example.profilresearch.entity.Application;
 import com.example.profilresearch.entity.JobOffer;
 import com.example.profilresearch.entity.Question;
+import com.example.profilresearch.entity.QuestionJobOffer;
 import com.example.profilresearch.repository.ApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,9 +26,21 @@ public class ApplicationService {
     private final QuestionService questionService;
     private final QuestionApplicationService questionApplicationService;
 
-    public List<Application> getApplicationByJobOffer(String id) {
+    public List<ApplicationResponse> getApplicationByJobOffer(String id) {
         Long jobOfferId = Long.parseLong(id);
-        return applicationRepository.findAllByJobOffer_Id(jobOfferId);
+        List<Application> appli = applicationRepository.findAllByJobOffer_Id(jobOfferId);
+
+        List<ApplicationResponse> applisRes = new ArrayList<ApplicationResponse>();
+        for (Application application : appli) {
+            ApplicationResponse app = new ApplicationResponse();
+            app.setId(application.getId());
+            app.setFirstname(application.getFirstname());
+            app.setLastname(application.getLastname());
+            app.setMail(application.getMail());
+            app.setId_job_offer(jobOfferId);
+            applisRes.add(app);
+        }
+        return applisRes;
     }
 
     public void deleteById(String id) {

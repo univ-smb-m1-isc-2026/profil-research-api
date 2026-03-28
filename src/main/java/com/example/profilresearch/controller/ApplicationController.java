@@ -1,6 +1,7 @@
 package com.example.profilresearch.controller;
 
 import com.example.profilresearch.dto.ApplicationRequest;
+import com.example.profilresearch.dto.ApplicationResponse;
 import com.example.profilresearch.entity.Application;
 import com.example.profilresearch.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class ApplicationController {
     private final ApplicationService applicationService;
 
     @GetMapping("/getApplicationByJobOffer/{jobOfferId}")
-    public List<Application> getApplicationByJobOffer(@PathVariable String jobOfferId) {
+    public List<ApplicationResponse> getApplicationByJobOffer(@PathVariable String jobOfferId) {
         logger.info("Fetching applications for job offer ID: {}", jobOfferId);
         return applicationService.getApplicationByJobOffer(jobOfferId);
     }
