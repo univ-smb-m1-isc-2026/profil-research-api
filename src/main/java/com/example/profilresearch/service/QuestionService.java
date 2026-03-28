@@ -17,7 +17,6 @@ public class QuestionService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final QuestionRepository questionRepository;
-    private final ChoiceFormatService choiceFormatService;
 
     public Optional<Question> getQuestionById(Long id){
         return questionRepository.findById(id);
@@ -33,16 +32,11 @@ public class QuestionService {
         Format format = Format.valueOf(request.getFormat());
         logger.debug("Format detected: {}", format);
         question.setFormat(format);
+        question.setChoices(request.getChoices());
 
         logger.info("Question created: {}", question.getTitle());
-        Question quest = questionRepository.save(question);
+        questionRepository.save(question);
 
-        if(format != Format.TEXT){
-            // ajouter les choice format
-            for (int i = 0; i<request.getChoices().size(); i++){
-                choiceFormatService.createChoiceFormat(request.getChoices().get(i), quest);
-            }
-        }
         return "Question ajouté";
     }
 }
