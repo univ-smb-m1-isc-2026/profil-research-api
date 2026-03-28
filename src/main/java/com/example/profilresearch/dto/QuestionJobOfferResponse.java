@@ -1,6 +1,5 @@
 package com.example.profilresearch.dto;
 
-import com.example.profilresearch.entity.JobOffer;
 import com.example.profilresearch.entity.Question;
 import lombok.Data;
 

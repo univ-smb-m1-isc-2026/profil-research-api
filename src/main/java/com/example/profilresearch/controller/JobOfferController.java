@@ -3,7 +3,6 @@ package com.example.profilresearch.controller;
 import com.example.profilresearch.dto.JobOfferRequest;
 import com.example.profilresearch.dto.QuestionJobOfferResponse;
 import com.example.profilresearch.entity.JobOffer;
-import com.example.profilresearch.entity.QuestionJobOffer;
 import com.example.profilresearch.service.JobOfferService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

@@ -2,7 +2,6 @@ package com.example.profilresearch.service;
 
 import com.example.profilresearch.dto.JobOfferRequest;
 import com.example.profilresearch.dto.QuestionJobOfferResponse;
-import com.example.profilresearch.dto.QuestionRequest;
 import com.example.profilresearch.entity.JobOffer;
 import com.example.profilresearch.entity.Question;
 import com.example.profilresearch.entity.QuestionJobOffer;
