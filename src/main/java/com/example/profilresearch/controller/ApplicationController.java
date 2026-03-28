@@ -3,7 +3,6 @@ package com.example.profilresearch.controller;
 import com.example.profilresearch.dto.ApplicationRequest;
 import com.example.profilresearch.dto.ApplicationResponse;
 import com.example.profilresearch.dto.QuestionApplicationResponse;
-import com.example.profilresearch.entity.Application;
 import com.example.profilresearch.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

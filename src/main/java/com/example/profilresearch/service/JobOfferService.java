@@ -38,7 +38,6 @@ public class JobOfferService {
         Long JOId = Long.parseLong(jobOfferId);
         logger.info("Deleting JobOffer with ID: {}", JOId);
         List<QuestionJobOffer> qjo = questionJobOfferService.getAllQuestionJobOfferByJobOffer(JOId);
-        // retrouver tous les QuestionJobOffer qui sont avec ce jobOffer et le delete
         for (QuestionJobOffer questionJobOffer : qjo) {
             questionJobOfferService.deleteById(questionJobOffer.getId());
         }

@@ -3,7 +3,6 @@ package com.example.profilresearch.service;
 import com.example.profilresearch.entity.Application;
 import com.example.profilresearch.entity.Question;
 import com.example.profilresearch.entity.QuestionApplication;
-import com.example.profilresearch.repository.ApplicationRepository;
 import com.example.profilresearch.repository.QuestionApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,5 +24,9 @@ public class QuestionApplicationService {
 
     public List<QuestionApplication> getAllQuestionApplicationByApplication(Long applicationId){
         return questionApplicationRepository.findQuestionApplicationById_application(applicationId);
+    }
+
+    public void deleteById(Long qaId) {
+        questionApplicationRepository.deleteById(qaId);
     }
 }
