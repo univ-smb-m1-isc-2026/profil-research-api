@@ -3,6 +3,7 @@ package com.example.profilresearch.service;
 import com.example.profilresearch.dto.ApplicationRequest;
 import com.example.profilresearch.entity.Application;
 import com.example.profilresearch.entity.JobOffer;
+import com.example.profilresearch.entity.Question;
 import com.example.profilresearch.repository.ApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,6 +19,8 @@ public class ApplicationService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ApplicationRepository applicationRepository;
     private final JobOfferService jobOfferService;
+    private final QuestionService questionService;
+    private final QuestionApplicationService questionApplicationService;
 
     public List<Application> getApplicationByJobOffer(String id) {
         Long jobOfferId = Long.parseLong(id);
@@ -41,8 +44,14 @@ public class ApplicationService {
                 .orElseThrow(() -> new RuntimeException("Job Offer not found"));
         application.setJobOffer(jo);
 
-        applicationRepository.save(application);
         logger.info("Application created for {} {} on JobOffer {}", application.getFirstname(), application.getLastname(), jo.getId());
+        Application appli = applicationRepository.save(application);
+
+        for(int i = 0; i < request.getResponses().size(); i++){
+            Question question = questionService.getQuestionById(request.getResponses().get(i).getId_question())
+                    .orElseThrow(() -> new RuntimeException("Question not found"));
+            questionApplicationService.createQuestionApplication(question, appli, request.getResponses().get(i).getResponses());
+        }
 
         return "Application ajouté";
     }
