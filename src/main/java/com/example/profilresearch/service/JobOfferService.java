@@ -1,7 +1,10 @@
 package com.example.profilresearch.service;
 
 import com.example.profilresearch.dto.JobOfferRequest;
+import com.example.profilresearch.dto.QuestionJobOfferResponse;
 import com.example.profilresearch.entity.JobOffer;
+import com.example.profilresearch.entity.Question;
+import com.example.profilresearch.entity.QuestionJobOffer;
 import com.example.profilresearch.repository.JobOfferRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +23,8 @@ public class JobOfferService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final JobOfferRepository jobOfferRepository;
+    private final QuestionService questionService;
+    private final QuestionJobOfferService questionJobOfferService;
 
     public List<JobOffer> getAllJobOffer() {
         return jobOfferRepository.findAll();
@@ -31,9 +37,11 @@ public class JobOfferService {
     public void deleteById(String jobOfferId) {
         Long JOId = Long.parseLong(jobOfferId);
         logger.info("Deleting JobOffer with ID: {}", JOId);
+        List<QuestionJobOffer> qjo = questionJobOfferService.getAllQuestionJobOfferByJobOffer(JOId);
+        for (QuestionJobOffer questionJobOffer : qjo) {
+            questionJobOfferService.deleteById(questionJobOffer.getId());
+        }
         jobOfferRepository.deleteById(JOId);
-        // we delete also all the applications and the questions with ON DELETE CASCADE
-        // in the creation of tab Application and QuestionJobOffer
     }
 
     public String createJobOffer(JobOfferRequest request) {
@@ -47,8 +55,13 @@ public class JobOfferService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
         String formattedString = localDate.format(formatter);
         jobOffer.setDate(formattedString);
-        jobOfferRepository.save(jobOffer);
-        logger.info("JobOffer created: {}", jobOffer.getTitle());
+        JobOffer job = jobOfferRepository.save(jobOffer);
+
+        for(int i = 0; i < request.getId_question().size(); i++){
+            Question question = questionService.getQuestionById(request.getId_question().get(i))
+                    .orElseThrow(() -> new RuntimeException("Question not found"));
+            questionJobOfferService.createQuestionJobOffer(question, job, i);
+        }
 
         return "JobOffer ajouté";
     }
@@ -64,5 +77,20 @@ public class JobOfferService {
         jobOfferRepository.save(jo);
         logger.info("JobOffer {} set to public: {}", idJobOffer, jo.isPublic());
         return "JobOffer modifié";
+    }
+
+    public List<QuestionJobOfferResponse> getAllQuestionJobOffer(String jobOfferId) {
+        Long JOId = Long.parseLong(jobOfferId);
+        List<QuestionJobOffer> qjo = questionJobOfferService.getAllQuestionJobOfferByJobOffer(JOId);
+        List<QuestionJobOfferResponse> qjor = new ArrayList<QuestionJobOfferResponse>();
+        for (QuestionJobOffer questionJobOffer : qjo) {
+            QuestionJobOfferResponse qjori = new QuestionJobOfferResponse();
+            qjori.setId(questionJobOffer.getId());
+            qjori.setQuestion_number(questionJobOffer.getQuestion_number());
+            qjori.setId_question(questionJobOffer.getId_question());
+            qjori.setId_job_offer(questionJobOffer.getId_job_offer().getId());
+            qjor.add(qjori);
+        }
+        return qjor;
     }
 }

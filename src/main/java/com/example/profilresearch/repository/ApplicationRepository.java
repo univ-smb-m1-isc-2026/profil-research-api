@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
-    List<Application> findAllByJobOffer_Id(Long id); // bizzare l'erreur, a verifier
+    List<Application> findAllByJobOffer_Id(Long id);
 }

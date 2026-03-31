@@ -1,7 +1,10 @@
 package com.example.profilresearch.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -13,4 +16,6 @@ public class Question {
 
     private String title;
     private Format format;
+    @Nullable
+    private List<String> choices;
 }
