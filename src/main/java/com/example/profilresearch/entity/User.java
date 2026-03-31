@@ -9,4 +9,7 @@ import lombok.Data;
 public class User {
     @Id
     private String mail;
+
+    private String surname;
+    private String firstname;
 }

@@ -1,6 +1,7 @@
 package com.example.profilresearch.controller;
 
 import com.example.profilresearch.dto.JobOfferRequest;
+import com.example.profilresearch.dto.QuestionJobOfferResponse;
 import com.example.profilresearch.entity.JobOffer;
 import com.example.profilresearch.service.JobOfferService;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +47,10 @@ public class JobOfferController {
     public String editParking(@PathVariable Long idJobOffer) {
         logger.info("Toggling visibility for job offer ID: {}", idJobOffer);
         return jobOfferService.updateIsPublic(idJobOffer);
+    }
+
+    @GetMapping("/getAllQuestion/{jobOfferId}")
+    public List<QuestionJobOfferResponse> getAllQuestionJobOffer(@PathVariable String jobOfferId) {
+        return jobOfferService.getAllQuestionJobOffer(jobOfferId);
     }
 }

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,10 @@ public class QuestionService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final QuestionRepository questionRepository;
+
+    public Optional<Question> getQuestionById(Long id){
+        return questionRepository.findById(id);
+    }
 
     public List<Question> getAllQuestion() {
         return questionRepository.findAll();
@@ -27,9 +32,11 @@ public class QuestionService {
         Format format = Format.valueOf(request.getFormat());
         logger.debug("Format detected: {}", format);
         question.setFormat(format);
+        question.setChoices(request.getChoices());
 
-        questionRepository.save(question);
         logger.info("Question created: {}", question.getTitle());
+        questionRepository.save(question);
+
         return "Question ajouté";
     }
 }
