@@ -26,7 +26,7 @@ public class QuestionService {
         return questionRepository.findAll();
     }
 
-    public String createQuestion(QuestionRequest request) {
+    public Question createQuestion(QuestionRequest request) {
         Question question = new Question();
         question.setTitle(request.getTitle());
         Format format = Format.valueOf(request.getFormat());
@@ -35,8 +35,8 @@ public class QuestionService {
         question.setChoices(request.getChoices());
 
         logger.info("Question created: {}", question.getTitle());
-        questionRepository.save(question);
+        Question quest = questionRepository.save(question);
 
-        return "Question ajouté";
+        return quest;
     }
 }
