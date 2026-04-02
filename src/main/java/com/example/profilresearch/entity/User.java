@@ -12,4 +12,7 @@ public class User {
 
     private String surname;
     private String firstname;
+
+    private String provider;
+    private String providerId;
 }
