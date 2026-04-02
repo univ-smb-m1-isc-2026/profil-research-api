@@ -56,8 +56,11 @@ public class SecurityConfig {
                 .requestMatchers("/", "/error", "/oauth2/**", "/login/**").permitAll()
                 // Endpoint local de test public par exemple
                 .requestMatchers("/hello").permitAll()
-                // Toutes les requêtes vers l'API nécessitent une authentification
-                .requestMatchers("/api/**").authenticated()
+                // Routes publiques pour les candidats : visualisation des offres et soumission de formulaires
+                .requestMatchers("/api/joboffer/getAll", "/api/joboffer/get/*", "/api/form/**").permitAll()
+                // Seules les routes de gestion (admin) ou spécifiques nécessitent une authentification
+                .requestMatchers("/api/invitations/**", "/api/joboffer/delete/**", "/api/joboffer/create/**").authenticated()
+                // Par défaut, on laisse passer le reste ou on verrouille si nécessaire
                 .anyRequest().permitAll()
             )
             .oauth2Login(oauth2 -> oauth2
