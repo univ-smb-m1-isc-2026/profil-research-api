@@ -1,10 +1,14 @@
 package com.example.profilresearch.config;
 
+import com.example.profilresearch.security.JwtAuthenticationFilter;
+import com.example.profilresearch.security.OAuth2AuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -14,6 +18,15 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, 
+                          OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
+    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -37,7 +50,25 @@ public class SecurityConfig {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())  // API REST
-            .authorizeHttpRequests(authz -> authz.anyRequest().permitAll());  // TOUT PUBLIC
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(authz -> authz
+                // Permettre l'accès public au callback oauth2, error etc
+                .requestMatchers("/", "/error", "/oauth2/**", "/login/**").permitAll()
+                // Endpoint local de test public par exemple
+                .requestMatchers("/hello").permitAll()
+                // Routes publiques pour les candidats : visualisation des offres et soumission de formulaires
+                .requestMatchers("/api/joboffer/getAll", "/api/joboffer/get/*", "/api/form/**").permitAll()
+                // Seules les routes de gestion (admin) ou spécifiques nécessitent une authentification
+                .requestMatchers("/api/invitations/**", "/api/joboffer/delete/**", "/api/joboffer/create/**").authenticated()
+                // Par défaut, on laisse passer le reste ou on verrouille si nécessaire
+                .anyRequest().permitAll()
+            )
+            .oauth2Login(oauth2 -> oauth2
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+            );
+
+        // Ajout du filtre JWT avant le filtre standard d'authentification OAuth2 / UsernamePassword
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
