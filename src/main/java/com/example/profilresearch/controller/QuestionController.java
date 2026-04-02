@@ -25,7 +25,7 @@ public class QuestionController {
     }
 
     @PostMapping("/addQuestion")
-    public String addQuestion(@RequestBody QuestionRequest request) {
+    public Question addQuestion(@RequestBody QuestionRequest request) {
         logger.info("Adding new question: {}", request.getTitle());
         return questionService.createQuestion(request);
     }
