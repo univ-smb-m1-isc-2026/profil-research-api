@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "\"users\"")
+@Table(name = "users")
 public class User {
     @Id
     private String mail;
