@@ -51,15 +51,18 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         if (userOptional.isEmpty()) {
             String inviteToken = getCookieValue(request, "invite_token");
 
+            // Base URL extracted from redirectUri to avoid hardcoding localhost
+            String baseUrl = redirectUri.replace("/oauth2/redirect", "");
+
             if (inviteToken == null) {
-                getRedirectStrategy().sendRedirect(request, response, "http://localhost:3000/login?error=Lien_invitation_manquant");
+                getRedirectStrategy().sendRedirect(request, response, baseUrl + "/login?error=Lien_invitation_manquant");
                 return;
             }
 
             Optional<Invitation> inviteOpt = invitationRepository.findByToken(inviteToken);
             if (inviteOpt.isEmpty() || inviteOpt.get().isUsed() || 
                 (inviteOpt.get().getExpirationDate() != null && inviteOpt.get().getExpirationDate().isBefore(LocalDateTime.now()))) {
-                getRedirectStrategy().sendRedirect(request, response, "http://localhost:3000/login?error=Lien_invitation_invalide_ou_expire");
+                getRedirectStrategy().sendRedirect(request, response, baseUrl + "/login?error=Lien_invitation_invalide_ou_expire");
                 return;
             }
 
