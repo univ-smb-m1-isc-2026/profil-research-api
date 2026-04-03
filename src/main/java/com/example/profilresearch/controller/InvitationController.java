@@ -2,6 +2,7 @@ package com.example.profilresearch.controller;
 
 import com.example.profilresearch.entity.Invitation;
 import com.example.profilresearch.repository.InvitationRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,9 @@ import java.time.LocalDateTime;
 public class InvitationController {
 
     private final InvitationRepository invitationRepository;
+
+    @Value("${app.frontend.url:http://localhost:3000}")
+    private String frontendUrl;
 
     public InvitationController(InvitationRepository invitationRepository) {
         this.invitationRepository = invitationRepository;
@@ -31,7 +35,7 @@ public class InvitationController {
         invitationRepository.save(invitation);
 
         // Lien de l'application frontend 
-        String link = "http://localhost:3000/invite?token=" + invitation.getToken();
+        String link = frontendUrl + "/invite?token=" + invitation.getToken();
         
         return ResponseEntity.ok(link);
     }
